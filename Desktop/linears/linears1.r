@@ -1,0 +1,6 @@
+x=c(82,85,65,90,80,80,75,100,81,82)
+t.test(x,mu=80,alternative = 'greater')
+x=c(155,142,138,198,177,142,166,210,190,143)
+y=c(200,215,199,172,177,133,166,167,145,164)
+t.test(x,y, var.equal = TRUE , alternative = 'greater')
+t.test(x,y, var.equal = TRUE , alternative = 'greater', pair=TRUE)
