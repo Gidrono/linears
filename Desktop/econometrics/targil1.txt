@@ -1,0 +1,75 @@
+תרגיל 1:
+שאלה 3 - 
+אפשרות נוחה: hist(data$sugar, 3)
+כיוון שניתן לראות 3 קבוצות לפי רמת סוכר (נמוכה, בינונית, גבוהה)
+ולראות כי יש שני סוגים דומיננטיים, רמת סוכר גבוהה ורמת סוכר נמוכה, ובאמצע
+רמת סוכר בינונית עם מעט סוגי דגנים הנכללים בה - אולי בשל כך שילדים אוהבים דגנים מתוקים ומבוגרים אוהבים דגנים לא מתוקים ולכן אין הרבה דגנים בקבוצת האמצע.
+
+שאלה 5 - גבהים - היסטורגמה, משתנה כמותי ולכן נוח להציג טווחי גובה בקבוצות
+מגדר - בעיקר פאי, אבל אפשר גם עמודות - אין קבוצות, גבר או אישה ולכן לא ניתן ולא צריך לאגד בקבוצות. 
+רכב - בעיקר עמודות אבל אפשר גם פאי. עדיף עמודות כי ניתן ביטוי להרבה סוגי רכב איזוטריים ככה.
+
+
+QUESTION 2:
+
+> data=read.csv("/home/hanoch/Desktop/econometrics/ex1.csv", header = TRUE)
+> View(data)
+> data$sugar
+ [1] 37.8 50.4 48.8 55.1 33.6 44.0 47.4 44.0 44.2 43.0 50.3 53.5 43.3 45.7 55.0 40.3
+[17]  4.1 15.8  4.1 14.5 16.2 10.6  7.8  6.6  3.3 21.4 14.5 16.6 22.2  7.5  2.2 30.2
+[33] 46.6 20.0 18.4  4.7  8.1  1.3  4.4  1.0 10.0  8.5  3.5  2.4
+
+
+QUESTION 3:
+
+> hist(data$sugar,2)
+> hist(data$sugar, 1)
+> hist(data$sugar, 5)
+> hist(data$sugar, 20)
+> hist(data$sugar, 45)
+> hist(data$sugar, 100)
+> hist(data$sugar, 44)
+
+> hist(data$sugar, 10)
+> hist(data$sugar, 6)
+> hist(data$sugar, 3)
+
+QUESTION 4:
+
+> mean(data$sugar)
+[1] 24.15682
+> median(data$sugar)
+[1] 17.5
+> quantile(data$sugar, probs=c(10/100))
+ 10% 
+3.36 
+> quantile(data$sugar, probs=c(90/100))
+  90% 
+49.85 
+> range(data$sugar)
+[1]  1.0 55.1
+> max(data$sugar)
+[1] 55.1
+> min(data$sugar)
+[1] 1
+
+> max(data$sugar)-min(data$sugar)
+[1] 54.1
+> IQR(data$sugar)
+[1] 36.725
+> var(data$sugar)
+[1] 357.4141
+> sd(data$sugar)
+[1] 18.9054
+
+
+QUESTION 6:
+
+> data_air=datasets::airquality
+
+> plot(data_air$Wind, data_air$Temp)
+> cor(data_air$Wind, data_air$Temp)
+[1] -0.4579879
+
+> abline(lm(Wind~Temp, data=data_air), col="blue")
+
