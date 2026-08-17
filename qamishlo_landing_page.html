@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Qamishlo turns your commute into an interactive, hands-free learning session. Ask questions by voice and keep learning without breaking your flow." />
+  <title>Qamishlo — Learn on the way</title>
+  <style>
+    :root {
+      --bg: #f4efe6;
+      --bg-soft: #ebe3d6;
+      --ink: #0e1c22;
+      --muted: #647077;
+      --line: rgba(14, 28, 34, 0.12);
+      --card: rgba(255,255,255,0.64);
+      --navy: #10262d;
+      --orange: #de7642;
+      --orange-dark: #bc5b2c;
+      --mint: #b7d4c4;
+      --shadow: 0 24px 80px rgba(22, 34, 38, 0.10);
+      --radius-lg: 34px;
+      --radius-md: 22px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 82% 6%, rgba(222,118,66,.12), transparent 28%),
+        radial-gradient(circle at 12% 42%, rgba(183,212,196,.18), transparent 24%),
+        var(--bg);
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+
+    .shell {
+      width: min(calc(100% - 36px), var(--max));
+      margin: 0 auto;
+    }
+
+    .nav-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding-top: 18px;
+      pointer-events: none;
+    }
+
+    nav {
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 13px 16px 13px 20px;
+      border: 1px solid rgba(255,255,255,.65);
+      background: rgba(244,239,230,.74);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-radius: 999px;
+      box-shadow: 0 10px 30px rgba(14,28,34,.06);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      font-size: 19px;
+    }
+
+    .brand-mark {
+      width: 33px;
+      height: 33px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--navy);
+      color: var(--bg);
+      font-size: 12px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      font-size: 14px;
+      color: #435058;
+    }
+
+    .nav-links a:hover { color: var(--ink); }
+
+    .btn {
+      appearance: none;
+      border: none;
+      cursor: pointer;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-weight: 750;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .btn-dark {
+      background: var(--navy);
+      color: #fff;
+      box-shadow: 0 10px 24px rgba(16,38,45,.18);
+    }
+
+    .btn-dark:hover { background: #17333d; }
+
+    .btn-light {
+      background: rgba(255,255,255,.72);
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+
+    .hero {
+      padding: 86px 0 72px;
+      display: grid;
+      grid-template-columns: 1.02fr .98fr;
+      gap: 72px;
+      align-items: center;
+      min-height: 760px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 7px 11px;
+      border: 1px solid rgba(14,28,34,.12);
+      background: rgba(255,255,255,.42);
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-size: 11px;
+      font-weight: 800;
+      color: #526067;
+    }
+
+    .eyebrow .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--orange);
+      box-shadow: 0 0 0 4px rgba(222,118,66,.12);
+    }
+
+    h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 500;
+      font-size: clamp(58px, 7.4vw, 108px);
+      line-height: .91;
+      letter-spacing: -0.065em;
+      margin: 25px 0 28px;
+      max-width: 760px;
+    }
+
+    h1 em {
+      color: var(--orange);
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .hero-copy {
+      max-width: 610px;
+      font-size: 18px;
+      line-height: 1.68;
+      color: var(--muted);
+      margin: 0 0 30px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 34px;
+    }
+
+    .hero-note {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      color: #6a7479;
+    }
+
+    .mini-faces {
+      display: flex;
+      padding-left: 8px;
+    }
+    .mini-face {
+      width: 31px;
+      height: 31px;
+      margin-left: -8px;
+      border-radius: 50%;
+      border: 2px solid var(--bg);
+      display: grid;
+      place-items: center;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--navy);
+      background: #d7c8b3;
+    }
+    .mini-face:nth-child(2) { background: #b9d2c4; }
+    .mini-face:nth-child(3) { background: #e1a27e; }
+
+    .phone-stage {
+      position: relative;
+      min-height: 610px;
+      display: grid;
+      place-items: center;
+    }
+
+    .orbit {
+      position: absolute;
+      width: 560px;
+      height: 560px;
+      border-radius: 50%;
+      border: 1px dashed rgba(14,28,34,.16);
+      animation: spin 32s linear infinite;
+    }
+
+    .orbit::before,
+    .orbit::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+    }
+
+    .orbit::before {
+      width: 15px;
+      height: 15px;
+      background: var(--orange);
+      top: 42px;
+      left: 80px;
+    }
+
+    .orbit::after {
+      width: 11px;
+      height: 11px;
+      background: var(--mint);
+      bottom: 65px;
+      right: 74px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .phone {
+      width: 308px;
+      height: 620px;
+      border-radius: 48px;
+      background: #10262d;
+      padding: 10px;
+      box-shadow:
+        0 42px 90px rgba(16,38,45,.24),
+        inset 0 0 0 1px rgba(255,255,255,.18);
+      transform: rotate(3deg);
+      position: relative;
+      z-index: 3;
+    }
+
+    .phone::before {
+      content: "";
+      position: absolute;
+      width: 94px;
+      height: 24px;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #09171c;
+      border-radius: 999px;
+      z-index: 6;
+    }
+
+    .screen {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 39px;
+      background:
+        radial-gradient(circle at 50% 16%, rgba(222,118,66,.18), transparent 24%),
+        #f4efe6;
+      padding: 54px 22px 22px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .phone-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #6f797d;
+      margin-bottom: 30px;
+    }
+
+    .lesson-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      font-weight: 800;
+      color: #788185;
+      margin-bottom: 8px;
+    }
+
+    .lesson-title {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 34px;
+      line-height: 1.02;
+      letter-spacing: -.04em;
+      margin-bottom: 10px;
+    }
+
+    .lesson-sub {
+      font-size: 13px;
+      color: #6f797d;
+    }
+
+    .wave-card {
+      margin: 28px 0 0;
+      padding: 20px 17px;
+      background: rgba(255,255,255,.68);
+      border: 1px solid rgba(16,38,45,.08);
+      border-radius: 24px;
+      box-shadow: 0 18px 40px rgba(16,38,45,.08);
+    }
+
+    .wave {
+      height: 58px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      justify-content: center;
+    }
+
+    .wave span {
+      width: 3px;
+      border-radius: 99px;
+      background: var(--navy);
+      opacity: .82;
+      animation: bounce 1.1s ease-in-out infinite;
+    }
+    .wave span:nth-child(2n) { animation-delay: -.45s; }
+    .wave span:nth-child(3n) { animation-delay: -.7s; }
+    .wave span:nth-child(4n) { animation-delay: -.2s; }
+
+    @keyframes bounce {
+      0%,100% { height: 10px; opacity: .35; }
+      50% { height: 46px; opacity: .88; }
+    }
+
+    .progress {
+      margin-top: 13px;
+      height: 4px;
+      background: #e3ddd2;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .progress span {
+      display: block;
+      width: 61%;
+      height: 100%;
+      background: var(--orange);
+      border-radius: inherit;
+    }
+
+    .ask-panel {
+      margin-top: auto;
+      background: var(--navy);
+      color: white;
+      padding: 17px;
+      border-radius: 26px;
+    }
+
+    .ask-panel small {
+      display: block;
+      color: #b9c6c9;
+      margin-bottom: 12px;
+    }
+
+    .ask-line {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mic {
+      flex: 0 0 45px;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--orange);
+      font-size: 18px;
+    }
+
+    .ask-line strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 3px;
+    }
+
+    .ask-line span {
+      display: block;
+      font-size: 11px;
+      color: #b9c6c9;
+    }
+
+    .floating-card {
+      position: absolute;
+      z-index: 5;
+      width: 210px;
+      padding: 15px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.85);
+      border: 1px solid rgba(14,28,34,.08);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 18px 45px rgba(14,28,34,.10);
+    }
+
+    .floating-card .kicker {
+      font-size: 10px;
+      color: #7b8589;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-weight: 800;
+      margin-bottom: 7px;
+    }
+
+    .floating-card b {
+      font-size: 14px;
+      line-height: 1.35;
+      display: block;
+    }
+
+    .float-one { left: -12px; top: 108px; transform: rotate(-4deg); }
+    .float-two { right: -18px; bottom: 100px; transform: rotate(4deg); }
+
+    .float-two .pill {
+      margin-top: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #365245;
+      background: #dfece4;
+      padding: 6px 9px;
+      border-radius: 999px;
+    }
+
+    section {
+      padding: 95px 0;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 70px;
+      align-items: end;
+      margin-bottom: 45px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(44px, 5.4vw, 74px);
+      line-height: .98;
+      letter-spacing: -.055em;
+      font-weight: 500;
+    }
+
+    .section-head p {
+      margin: 0 0 6px;
+      max-width: 580px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .feature {
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(14,28,34,.08);
+      background: var(--card);
+      padding: 28px;
+      min-height: 290px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 34px rgba(14,28,34,.045);
+    }
+
+    .feature-num {
+      font-size: 12px;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      color: #7a858a;
+      font-weight: 800;
+    }
+
+    .feature-icon {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: var(--navy);
+      color: white;
+      font-size: 20px;
+      margin: 34px 0 26px;
+    }
+
+    .feature:nth-child(2) .feature-icon { background: var(--orange); }
+    .feature:nth-child(3) .feature-icon { background: #6b8275; }
+
+    .feature h3 {
+      margin: 0 0 12px;
+      font-size: 22px;
+      letter-spacing: -.035em;
+    }
+
+    .feature p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    .interaction {
+      background: var(--navy);
+      color: white;
+      border-radius: 50px;
+      padding: 78px 64px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .interaction::after {
+      content: "";
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      right: -180px;
+      top: -220px;
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: 0 0 0 80px rgba(255,255,255,.018), 0 0 0 160px rgba(255,255,255,.012);
+    }
+
+    .interaction-grid {
+      display: grid;
+      grid-template-columns: .85fr 1.15fr;
+      gap: 70px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .interaction h2 {
+      margin: 15px 0 20px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(44px, 5.2vw, 72px);
+      line-height: .98;
+      font-weight: 500;
+      letter-spacing: -.055em;
+    }
+
+    .interaction-copy {
+      color: #b9c6c9;
+      font-size: 16px;
+      line-height: 1.72;
+      max-width: 500px;
+    }
+
+    .conversation {
+      align-self: center;
+      display: grid;
+      gap: 14px;
+    }
+
+    .bubble {
+      width: min(100%, 560px);
+      padding: 18px 20px;
+      border-radius: 22px;
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .bubble.user {
+      justify-self: end;
+      background: #f1e8dc;
+      color: var(--ink);
+      border-bottom-right-radius: 7px;
+    }
+
+    .bubble.ai {
+      justify-self: start;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: #f5f7f7;
+      border-bottom-left-radius: 7px;
+    }
+
+    .bubble .who {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-weight: 800;
+      opacity: .58;
+      margin-bottom: 6px;
+    }
+
+    .resume {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #afc0c4;
+      font-size: 12px;
+      margin-top: 6px;
+    }
+
+    .resume::before {
+      content: "";
+      width: 52px;
+      height: 1px;
+      background: rgba(255,255,255,.25);
+    }
+
+    .library {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 55px;
+      align-items: center;
+    }
+
+    .library-copy h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(48px, 5vw, 72px);
+      line-height: .98;
+      letter-spacing: -.055em;
+      font-weight: 500;
+      margin: 14px 0 24px;
+    }
+
+    .library-copy p {
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.72;
+      margin: 0 0 25px;
+      max-width: 520px;
+    }
+
+    .topic-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .topic {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 20px;
+      background: rgba(255,255,255,.60);
+      border: 1px solid rgba(14,28,34,.08);
+      border-radius: 17px;
+      transition: transform .18s ease, background .18s ease;
+    }
+
+    .topic:hover {
+      transform: translateX(4px);
+      background: rgba(255,255,255,.88);
+    }
+
+    .topic-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .topic-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: var(--bg-soft);
+      font-size: 15px;
+    }
+
+    .topic strong { font-size: 15px; }
+    .topic small { color: #899195; font-size: 12px; }
+
+    .cta {
+      margin-bottom: 84px;
+      border-radius: 44px;
+      padding: 70px 48px;
+      text-align: center;
+      background:
+        radial-gradient(circle at 18% 20%, rgba(255,255,255,.15), transparent 26%),
+        var(--orange);
+      color: white;
+      box-shadow: var(--shadow);
+    }
+
+    .cta h2 {
+      margin: 0 auto 18px;
+      max-width: 850px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(46px, 6vw, 82px);
+      line-height: .96;
+      letter-spacing: -.055em;
+      font-weight: 500;
+    }
+
+    .cta p {
+      margin: 0 auto 30px;
+      max-width: 580px;
+      color: rgba(255,255,255,.82);
+      font-size: 17px;
+    }
+
+    .waitlist {
+      display: flex;
+      max-width: 550px;
+      margin: 0 auto;
+      padding: 6px;
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.28);
+      border-radius: 999px;
+    }
+
+    .waitlist input {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: white;
+      padding: 11px 15px;
+      min-width: 0;
+    }
+
+    .waitlist input::placeholder { color: rgba(255,255,255,.70); }
+
+    .waitlist .btn {
+      background: white;
+      color: var(--orange-dark);
+      flex: 0 0 auto;
+    }
+
+    .form-note {
+      min-height: 22px;
+      margin-top: 12px;
+      font-size: 13px;
+      color: rgba(255,255,255,.82);
+    }
+
+    footer {
+      padding: 0 0 36px;
+    }
+
+    .footer-row {
+      border-top: 1px solid var(--line);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      font-size: 13px;
+      color: #738087;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    @media (max-width: 980px) {
+      .nav-links a:not(.btn) { display: none; }
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding-top: 70px;
+      }
+      .hero-copy { max-width: 720px; }
+      .phone-stage { min-height: 650px; }
+      .section-head,
+      .interaction-grid,
+      .library {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+      .feature-grid { grid-template-columns: 1fr; }
+      .feature { min-height: 230px; }
+      .interaction { padding: 60px 38px; }
+      .conversation { margin-top: 8px; }
+    }
+
+    @media (max-width: 620px) {
+      .shell { width: min(calc(100% - 24px), var(--max)); }
+      nav { padding-left: 15px; }
+      .nav-links { gap: 8px; }
+      .nav-links .btn { padding: 10px 14px; font-size: 12px; }
+      .hero { padding-top: 54px; min-height: auto; }
+      h1 { font-size: 58px; }
+      .hero-copy { font-size: 16px; }
+      .hero-actions .btn { width: 100%; }
+      .phone-stage { min-height: 570px; transform: scale(.9); margin: -24px 0; }
+      .orbit { width: 470px; height: 470px; }
+      .phone { width: 284px; height: 575px; }
+      .float-one { left: -52px; }
+      .float-two { right: -50px; }
+      section { padding: 70px 0; }
+      .section-head h2 { font-size: 48px; }
+      .interaction { border-radius: 30px; padding: 46px 24px; }
+      .cta { border-radius: 28px; padding: 52px 20px; }
+      .waitlist { flex-direction: column; border-radius: 22px; }
+      .waitlist .btn { width: 100%; }
+      .footer-row { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="nav-wrap">
+    <div class="shell">
+      <nav aria-label="Primary navigation">
+        <a class="brand" href="#top">
+          <span class="brand-mark">Q</span>
+          <span>Qamishlo</span>
+        </a>
+        <div class="nav-links">
+          <a href="#how">How it works</a>
+          <a href="#conversation">Ask anything</a>
+          <a href="#topics">Topics</a>
+          <a class="btn btn-dark" href="#early-access">Get early access</a>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <main id="top">
+    <div class="shell">
+      <section class="hero">
+        <div>
+          <div class="eyebrow"><span class="dot"></span> Learning, built for motion</div>
+          <h1>Your commute has a <em>better</em> soundtrack.</h1>
+          <p class="hero-copy">
+            Qamishlo turns the time you already spend driving, walking, or riding into a personal audio course.
+            Listen hands-free, interrupt with a question whenever curiosity hits, get an answer, and keep going.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-dark" href="#early-access">Join the early list <span>↗</span></a>
+            <a class="btn btn-light" href="#how">See how it works <span>↓</span></a>
+          </div>
+          <div class="hero-note">
+            <div class="mini-faces" aria-hidden="true">
+              <span class="mini-face">JS</span>
+              <span class="mini-face">MK</span>
+              <span class="mini-face">AL</span>
+            </div>
+            <span>Built for curious people with somewhere to be.</span>
+          </div>
+        </div>
+
+        <div class="phone-stage" aria-label="Qamishlo lesson preview">
+          <div class="orbit" aria-hidden="true"></div>
+
+          <div class="floating-card float-one">
+            <div class="kicker">You ask</div>
+            <b>“Wait — why did Rome split in two?”</b>
+          </div>
+
+          <div class="phone">
+            <div class="screen">
+              <div class="phone-top">
+                <span>9:41</span>
+                <span>● ●● 100%</span>
+              </div>
+
+              <div class="lesson-label">Lesson 03 · Roman Empire</div>
+              <div class="lesson-title">The empire gets too big</div>
+              <div class="lesson-sub">12 min · Deep · Narrator: Mira</div>
+
+              <div class="wave-card">
+                <div class="wave" aria-hidden="true">
+                  <span></span><span></span><span></span><span></span><span></span>
+                  <span></span><span></span><span></span><span></span><span></span>
+                  <span></span><span></span><span></span><span></span><span></span>
+                  <span></span><span></span><span></span><span></span><span></span>
+                </div>
+                <div class="progress"><span></span></div>
+              </div>
+
+              <div class="ask-panel">
+                <small>Something unclear?</small>
+                <div class="ask-line">
+                  <div class="mic">⌁</div>
+                  <div>
+                    <strong>Tap and ask</strong>
+                    <span>Your lesson will pick up where it left off.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="floating-card float-two">
+            <div class="kicker">Qamishlo answers</div>
+            <b>With the context of exactly what you just heard.</b>
+            <span class="pill">● lesson resumes</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="shell">
+      <section id="how">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">How Qamishlo works</div>
+            <h2>Learning that fits the way you move.</h2>
+          </div>
+          <p>
+            Choose something worth knowing. Qamishlo shapes it around your level and the time you actually have,
+            then turns it into an audio-first course that can travel with you.
+          </p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature">
+            <div class="feature-num">01 · Pick</div>
+            <div class="feature-icon">⌕</div>
+            <h3>Choose a subject</h3>
+            <p>Start from the library or name your own topic. Go broad, go niche, go deep.</p>
+          </article>
+
+          <article class="feature">
+            <div class="feature-num">02 · Personalize</div>
+            <div class="feature-icon">≈</div>
+            <h3>Meet you where you are</h3>
+            <p>Qamishlo adapts the depth, pacing, lesson length, and voice to your knowledge and commute.</p>
+          </article>
+
+          <article class="feature">
+            <div class="feature-num">03 · Learn</div>
+            <div class="feature-icon">↗</div>
+            <h3>Keep the conversation going</h3>
+            <p>Interrupt by voice, ask what you need, hear a contextual answer, then return to the exact thread.</p>
+          </article>
+        </div>
+      </section>
+    </div>
+
+    <div class="shell">
+      <section id="conversation">
+        <div class="interaction">
+          <div class="interaction-grid">
+            <div>
+              <div class="eyebrow" style="color:#cfdbde;border-color:rgba(255,255,255,.14);background:rgba(255,255,255,.04)">
+                The interruption
+              </div>
+              <h2>Not a podcast. A conversation.</h2>
+              <p class="interaction-copy">
+                Most audio learning makes you save questions for later. Qamishlo lets you ask in the moment,
+                while the idea is still fresh — then folds the answer back into the lesson without losing your place.
+              </p>
+            </div>
+
+            <div class="conversation" aria-label="Example learner conversation">
+              <div class="bubble user">
+                <div class="who">You</div>
+                So was the division mostly administrative, or was the empire already culturally split?
+              </div>
+              <div class="bubble ai">
+                <div class="who">Qamishlo</div>
+                Both — but administration came first. Diocletian’s reforms formalized a practical split, while language,
+                economy, and political centers made East and West increasingly distinct over time.
+              </div>
+              <div class="bubble user">
+                <div class="who">You</div>
+                Got it. Keep going.
+              </div>
+              <div class="resume">Resuming lesson · 06:42</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="shell">
+      <section id="topics">
+        <div class="library">
+          <div class="library-copy">
+            <div class="eyebrow">Explore or invent</div>
+            <h2>Start with a course. Or just name the thing.</h2>
+            <p>
+              Browse popular subjects or ask Qamishlo to build a course around whatever you want to understand next.
+              Your route can be familiar. Your learning doesn’t have to be.
+            </p>
+            <a class="btn btn-dark" href="#early-access">Bring your first topic <span>→</span></a>
+          </div>
+
+          <div class="topic-list">
+            <div class="topic">
+              <div class="topic-left">
+                <div class="topic-badge">🏛</div>
+                <div><strong>History of Rome</strong><br><small>History · Popular</small></div>
+              </div>
+              <span>→</span>
+            </div>
+            <div class="topic">
+              <div class="topic-left">
+                <div class="topic-badge">⌘</div>
+                <div><strong>System Design</strong><br><small>Computer Science · Deep</small></div>
+              </div>
+              <span>→</span>
+            </div>
+            <div class="topic">
+              <div class="topic-left">
+                <div class="topic-badge">◒</div>
+                <div><strong>How Stars Die</strong><br><small>Science · 8 lessons</small></div>
+              </div>
+              <span>→</span>
+            </div>
+            <div class="topic">
+              <div class="topic-left">
+                <div class="topic-badge">Aa</div>
+                <div><strong>Modernist Literature</strong><br><small>Literature · Intermediate</small></div>
+              </div>
+              <span>→</span>
+            </div>
+            <div class="topic">
+              <div class="topic-left">
+                <div class="topic-badge">＋</div>
+                <div><strong>Custom topic</strong><br><small>Tell Qamishlo what you want to learn</small></div>
+              </div>
+              <span>→</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="shell">
+      <section id="early-access" class="cta">
+        <h2>There’s more in your commute.</h2>
+        <p>Join the early-access list and be among the first to turn dead travel time into something you actually keep.</p>
+        <form class="waitlist" id="waitlistForm">
+          <input id="email" type="email" placeholder="you@example.com" aria-label="Email address" required />
+          <button class="btn" type="submit">Request access</button>
+        </form>
+        <div class="form-note" id="formNote" aria-live="polite"></div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="shell footer-row">
+      <a class="brand" href="#top"><span class="brand-mark">Q</span><span>Qamishlo</span></a>
+      <span>Learn on the way.</span>
+      <div class="footer-links">
+        <a href="#how">Product</a>
+        <a href="#early-access">Early access</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const form = document.getElementById('waitlistForm');
+    const email = document.getElementById('email');
+    const note = document.getElementById('formNote');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const value = email.value.trim();
+      if (!value) return;
+      note.textContent = `Thanks — ${value} is on the Qamishlo early-access list.`;
+      email.value = '';
+    });
+  </script>
+</body>
+</html>
